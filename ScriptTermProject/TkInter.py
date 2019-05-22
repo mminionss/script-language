@@ -53,23 +53,22 @@ class Animals:
         listbox.pack(side="left")
         scrollbar["command"] = listbox.yview
 
+        imgObj = PhotoImage(file="ex.gif")
+        imgLabel = Label(window)
+        imgLabel.config(image=imgObj)
+        imgLabel.pack(side="left")
+
         frame4 = Frame(window)
-        frame4.pack()
+        frame4.pack(side="left")
         b4 = Button(frame4, text="이메일")
         b4.grid(row=0, column=1, sticky="E")
+
         b5 = Button(frame4, text="☆")
         b5.grid(row=0, column=5, sticky="E")
 
-        frame5 = Frame(window)
-        frame5.pack()
-        b6 = Button(frame5, text="보호소 위치보기")
+        b6 = Button(frame4, text="보호소 위치보기")
         b6.grid(row=0, column=3, sticky="E")
 
-        imgObj = PhotoImage(file="ex.gif")
-
-        imgLabel = Label(window)
-        imgLabel.config(image=imgObj)
-        imgLabel.pack()
 
 
         window.mainloop()
