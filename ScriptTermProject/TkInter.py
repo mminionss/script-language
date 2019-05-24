@@ -10,6 +10,7 @@ from xml.etree import ElementTree
 
 server = "openapi.animal.go.kr"
 conn = None
+global searchOption
 
 def InitRenderText():
     global RenderText
@@ -34,42 +35,82 @@ def getData():
     # serviceKey=o%2FSVIGlGjsaX3DTs%2FjBgQH92mEtQTi9EpyoiRoR7RQe8VyfgwwFz8jKmS26J90tsGuVa6T0%2FIaZtF%2FkEUAhwAA%3D%3D
     # &bgnde=20140601
     # &endde=20140630
-    # &upkind=417000
+    # &upkind=417000 고양이 =422400
     # &pageNo=1
     # &numOfRows=10
     # &neuter_yn=Y
     uri = userURIBuilder("/openapi/service/rest/abandonmentPublicSrvc/abandonmentPublic",
                          serviceKey="o/SVIGlGjsaX3DTs/jBgQH92mEtQTi9EpyoiRoR7RQe8VyfgwwFz8jKmS26J90tsGuVa6T0/IaZtF/kEUAhwAA==",
-                         bgnde="20140601", endde="20190501", upkind="417000", pageNo="1", numOfRows="10", neuter_yn="Y",
+                         bgnde="20140601", endde="20190501", upkind="422400", pageNo="1", numOfRows="10", neuter_yn="Y",
                          upr_cd="",org_cd="",care_reg_no="",state="")
     conn.request("GET", uri, None)
     req = conn.getresponse()
     print(req.status) #200
     if int(req.status) == 200:
         print("Data Downloading complete ! ")
-        #print(req.read().decode('utf-8')) #여기서 에러.
-        return extractData(req.read().decode('utf-8'))
+        #print(req.read().decode('utf-8')) #여기서 에러.->고침
+        return extractData(req.read().decode('utf-8')) #잘 연결되었다면 extractData 호출
     else:
         print("Failed! Retry.")
         return None
 
-def extractData(strXml):
+def extractData(strXml): #getData에서 호출
     tree = ElementTree.fromstring(strXml)
     #print(strXml)
 
     #엘리먼트 가져오기
     itemElements = tree.getiterator("item")
-    #print(itemElements)
-    for item in itemElements:
-        age = item.find("age")
+    return itemElements
+    # #print(itemElements)
+    #
+    # #검색옵션 = 주소
+    # if searchOption == '주소':
+    #     for item in itemElements:
+    #         careAddr = item.find("careAddr")
+    #         if len(careAddr.text.find(keyword)) > 0:  # 내용이 존재하면
+    #             return {"age": age.text, "careAddr": careAddr.text}
+
+
+
+def Search(keyword): #검색버튼을 눌렀을 때 실행
+    #검색 옵션이 강아지일 경우
+
+    #검색 키워드가 주소일 경우
+    SearchAddr(keyword)
+    #검색 키워드가 종 이름 #아이디어노트: tkInter 탭하나 만들어서 종 이름 쭈루룩 출력해서 참고가능하게.
+    SearchKind(keyword)
+    #검색 키워드가 보호소 이름
+    SearchCenter(keyword)
+
+
+
+def SearchAddr(keyword): #주소로 검색
+    searchlist=[]
+    for item in getData():
         careAddr = item.find("careAddr")
-        print(careAddr)
-        if len(age.text)>0:#내용이 존재하면
-            return {"age":age.text, "careAddr":careAddr.text}
+        if (careAddr.text.find(keyword)) >= 0:  # 내용이 존재하면
+            searchlist.append(careAddr.text)
+    return print(searchlist)
+
+def SearchCenter(keyword): #센터 이름으로 검색
+    searchlist=[]
+    for item in getData():
+        careNm = item.find("careNm")
+        if (careNm.text.find(keyword)) >= 0:  # 내용이 존재하면
+            searchlist.append(careNm.text)
+    return print(searchlist)
+
+def SearchKind(keyword): #종 이름으로 검색
+    searchlist=[]
+    for item in getData():
+        kindCd = item.find("kindCd")
+        if (kindCd.text.find(keyword)) >= 0:  # 내용이 존재하면
+            searchlist.append(kindCd.text)
+    return print(searchlist)
 
 
-def SearchAge(keyword):
-    pass
+def PrintList(searchlist): #리스트에 추가된 데이터를 출력
+    print(searchlist)
 
 class Animals:
     def __init__(self):
@@ -92,21 +133,17 @@ class Animals:
             '경기'
         ]  # etc
 
-        frame1 = Frame(window)
-
         variable = StringVar(window)
         variable.set(OPTIONS[0])  # default value
 
         w = OptionMenu(window, variable, *OPTIONS)
         w.place(x=150,y=25)
-        frame2 = Frame(window)
-
+        #검색 엔트리
         e1 = Entry(window)
         e1.place(x=100,y=60)
         b1=Button(window,text="검색")
         b1.place(x=250,y=60)
 
-        frame3 = Frame(window)
 
         Label(window, text="정렬").place(x=110,y=90)
         b2 = Button(window, text="날짜순")
@@ -145,5 +182,5 @@ class Animals:
 
         window.mainloop()
 
-getData()
+Search('한국')
 Animals()
