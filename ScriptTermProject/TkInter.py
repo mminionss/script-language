@@ -188,8 +188,6 @@ class Animals:
         b6 = Button(window, text="보호소 위치보기")
         b6.place(x=260,y=360)
 
-
-
         window.mainloop()
 
 Search('인천') #Entry.get(Animals().e1) 해서 가져올 예정

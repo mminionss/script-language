@@ -17,7 +17,7 @@
     
     <meta name="viewport" content="width=device-width,
         initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <style>#map_f01232836b0646babb9613a9bd6cd978 {
+    <style>#map_bb960c82f0f049ae934a72a5e5dd258e {
         position: relative;
         width: 100.0%;
         height: 100.0%;
@@ -28,7 +28,7 @@
 </head>
 <body>    
     
-    <div class="folium-map" id="map_f01232836b0646babb9613a9bd6cd978" ></div>
+    <div class="folium-map" id="map_bb960c82f0f049ae934a72a5e5dd258e" ></div>
 </body>
 <script>    
     
@@ -36,9 +36,9 @@
         var bounds = null;
     
 
-    var map_f01232836b0646babb9613a9bd6cd978 = L.map(
-        'map_f01232836b0646babb9613a9bd6cd978', {
-        center: [37.568477, 126.981611],
+    var map_bb960c82f0f049ae934a72a5e5dd258e = L.map(
+        'map_bb960c82f0f049ae934a72a5e5dd258e', {
+        center: [37.870134, 126.983358],
         zoom: 16,
         maxBounds: bounds,
         layers: [],
@@ -49,7 +49,7 @@
 
 
     
-    var tile_layer_a08280e4df1d4304bdd5d00876782baf = L.tileLayer(
+    var tile_layer_7cfae36d737440f8b73fff0143191efc = L.tileLayer(
         'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         {
         "attribution": null,
@@ -61,5 +61,13 @@
         "opacity": 1,
         "subdomains": "abc",
         "tms": false
-}).addTo(map_f01232836b0646babb9613a9bd6cd978);
+}).addTo(map_bb960c82f0f049ae934a72a5e5dd258e);
+    
+        var marker_a155432091f844059722f73c077b28d4 = L.marker(
+            [37.870134, 126.983358],
+            {
+                icon: new L.Icon.Default(),
+                }
+            ).addTo(map_bb960c82f0f049ae934a72a5e5dd258e);
+        
 </script>
