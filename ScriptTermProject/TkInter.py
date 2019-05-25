@@ -25,9 +25,10 @@ def connectServer():
     global conn, server
     conn = http.client.HTTPConnection(server)
     conn.set_debuglevel(1)
+kindNm="417000"
 
-def getData():
-    global server, conn
+def getData(): # search에서 호출
+    global server, conn, kindNm
     if conn == None:
         connectServer()
     # 정보 가져올 url 생성
@@ -41,7 +42,7 @@ def getData():
     # &neuter_yn=Y
     uri = userURIBuilder("/openapi/service/rest/abandonmentPublicSrvc/abandonmentPublic",
                          serviceKey="o/SVIGlGjsaX3DTs/jBgQH92mEtQTi9EpyoiRoR7RQe8VyfgwwFz8jKmS26J90tsGuVa6T0/IaZtF/kEUAhwAA==",
-                         bgnde="20140601", endde="20190501", upkind="417000", pageNo="1", numOfRows="10", neuter_yn="Y",
+                         bgnde="20140601", endde="20190501", upkind=kindNm, pageNo="1", numOfRows="481", neuter_yn="Y",
                          upr_cd="",org_cd="",care_reg_no="",state="")
     conn.request("GET", uri, None)
     req = conn.getresponse()
@@ -75,8 +76,8 @@ def Search(keyword): #검색버튼을 눌렀을 때 실행
     #SearchCenter(keyword)
 
 global searchlist
-global listbox
 searchlist=[]
+
 def SearchAddr(keyword): #주소로 검색
     for item in getData():
         careAddr = item.find("careAddr")
@@ -107,14 +108,17 @@ def SearchKind(keyword): #종 이름으로 검색
     return searchlist
 
 def PrintList(): #리스트에 추가된 데이터를 출력
-    global listbox
+
+    #만약 정렬 버튼을 눌렀다면
+    SortList()
     #화면에 출력해보기
     for i in range(len(searchlist)):
         for j in range(7):
             print(searchlist[i][j])
         print()
 
-
+def SortList():
+    searchlist.sort(reverse=True)
 
 class Animals:
     def __init__(self):
@@ -130,23 +134,21 @@ class Animals:
         Radiobutton(window, text="전체", variable=self.v, value=3).place(x=240,y=0)
 
         OPTIONS = [
-            '전체',
-            '서울',
-            '인천',
-            '경기'
+            '주소',
+            '품종',
+            '보호소 이름'
         ]  # etc
 
         variable = StringVar(window)
         variable.set(OPTIONS[0])  # default value
         w = OptionMenu(window, variable, *OPTIONS)
-        w.place(x=150,y=25)
+        w.place(x=100,y=25)
 
         #검색 엔트리
         e1 = Entry(window)
         e1.place(x=100,y=60)
         b1=Button(window,text="검색")
         b1.place(x=250,y=60)
-
 
         Label(window, text="정렬").place(x=110,y=90)
         b2 = Button(window, text="날짜순")
@@ -155,19 +157,19 @@ class Animals:
         b3.place(x=200,y=90)
 
         #리스트박스
-        global listbox
         frame7 = Frame(window)
-        frame7.place(x=120,y=120)
+        frame7.place(x=10,y=120)
         scrollbar = tkinter.Scrollbar(frame7)
         scrollbar.pack(side="right", fill="y")
-        listbox = tkinter.Listbox(frame7, yscrollcommand=scrollbar.set)
+        listbox = tkinter.Listbox(frame7, yscrollcommand=scrollbar.set,width='50')
         listbox.pack(side="left")
         scrollbar["command"] = listbox.yview
-
+        # listbox.insert(0, "11111")
+        # listbox.insert(1, "22222")
         # 리스트 박스에 출력
         for i in range(len(searchlist)):
-            for j in range(7):
-                listbox.insert(i, searchlist[i][j])
+            listbox.insert(0,searchlist[i][0]+"\n"+searchlist[i][1]+"\n"+searchlist[i][2]+"\n"+searchlist[i][3]+"\n"+searchlist[i][4]+"\n"+searchlist[i][5]+"\n"+searchlist[i][6])
+
 
         #이미지
         global imgfile
