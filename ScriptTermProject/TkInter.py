@@ -41,7 +41,7 @@ def getData():
     # &neuter_yn=Y
     uri = userURIBuilder("/openapi/service/rest/abandonmentPublicSrvc/abandonmentPublic",
                          serviceKey="o/SVIGlGjsaX3DTs/jBgQH92mEtQTi9EpyoiRoR7RQe8VyfgwwFz8jKmS26J90tsGuVa6T0/IaZtF/kEUAhwAA==",
-                         bgnde="20140601", endde="20190501", upkind="422400", pageNo="1", numOfRows="10", neuter_yn="Y",
+                         bgnde="20140601", endde="20190501", upkind="417000", pageNo="1", numOfRows="10", neuter_yn="Y",
                          upr_cd="",org_cd="",care_reg_no="",state="")
     conn.request("GET", uri, None)
     req = conn.getresponse()
@@ -61,36 +61,34 @@ def extractData(strXml): #getData에서 호출
     #엘리먼트 가져오기
     itemElements = tree.getiterator("item")
     return itemElements
-    # #print(itemElements)
-    #
-    # #검색옵션 = 주소
-    # if searchOption == '주소':
-    #     for item in itemElements:
-    #         careAddr = item.find("careAddr")
-    #         if len(careAddr.text.find(keyword)) > 0:  # 내용이 존재하면
-    #             return {"age": age.text, "careAddr": careAddr.text}
 
-
-
+#주소, 보호소이름, 보호소 전화번호, 동물 정보(나이, 종, 털 색깔, 성별, 특징, 상태)
+#종+나이+성별, 털색깔+특징 ,상태, 보호소 이름, 전화번호, 주소
 def Search(keyword): #검색버튼을 눌렀을 때 실행
     #검색 옵션이 강아지일 경우
 
     #검색 키워드가 주소일 경우
     SearchAddr(keyword)
     #검색 키워드가 종 이름 #아이디어노트: tkInter 탭하나 만들어서 종 이름 쭈루룩 출력해서 참고가능하게.
-    SearchKind(keyword)
+    #SearchKind(keyword)
     #검색 키워드가 보호소 이름
-    SearchCenter(keyword)
+    #SearchCenter(keyword)
 
-
-
+global searchlist
+global listbox
+searchlist=[]
 def SearchAddr(keyword): #주소로 검색
-    searchlist=[]
     for item in getData():
         careAddr = item.find("careAddr")
         if (careAddr.text.find(keyword)) >= 0:  # 내용이 존재하면
-            searchlist.append(careAddr.text)
-    return print(searchlist)
+            searchlist.append((item.find("kindCd").text +" "+ item.find("age").text +" "+ item.find("sexCd").text+" ",
+                               "털 색 : "+item.find("colorCd").text +" ",
+                               "특징 : "+ item.find("specialMark").text,
+                               "진행상태 : " + item.find("processState").text,
+                               item.find("careNm").text,
+                               item.find("careTel").text,
+                               careAddr.text))
+    PrintList()
 
 def SearchCenter(keyword): #센터 이름으로 검색
     searchlist=[]
@@ -98,7 +96,7 @@ def SearchCenter(keyword): #센터 이름으로 검색
         careNm = item.find("careNm")
         if (careNm.text.find(keyword)) >= 0:  # 내용이 존재하면
             searchlist.append(careNm.text)
-    return print(searchlist)
+    return searchlist
 
 def SearchKind(keyword): #종 이름으로 검색
     searchlist=[]
@@ -106,11 +104,17 @@ def SearchKind(keyword): #종 이름으로 검색
         kindCd = item.find("kindCd")
         if (kindCd.text.find(keyword)) >= 0:  # 내용이 존재하면
             searchlist.append(kindCd.text)
-    return print(searchlist)
+    return searchlist
+
+def PrintList(): #리스트에 추가된 데이터를 출력
+    global listbox
+    #화면에 출력해보기
+    for i in range(len(searchlist)):
+        for j in range(7):
+            print(searchlist[i][j])
+        print()
 
 
-def PrintList(searchlist): #리스트에 추가된 데이터를 출력
-    print(searchlist)
 
 class Animals:
     def __init__(self):
@@ -118,7 +122,6 @@ class Animals:
         window.title("유기 동물 조회 서비스")
         window.geometry("400x600")
         window.resizable(False, False)
-
 
         self.v=IntVar()
         l1=Label(window, text="검색옵션").place(x=60,y=0)
@@ -135,9 +138,9 @@ class Animals:
 
         variable = StringVar(window)
         variable.set(OPTIONS[0])  # default value
-
         w = OptionMenu(window, variable, *OPTIONS)
         w.place(x=150,y=25)
+
         #검색 엔트리
         e1 = Entry(window)
         e1.place(x=100,y=60)
@@ -151,20 +154,27 @@ class Animals:
         b3 = Button(window, text="지역순")
         b3.place(x=200,y=90)
 
+        #리스트박스
+        global listbox
         frame7 = Frame(window)
         frame7.place(x=120,y=120)
         scrollbar = tkinter.Scrollbar(frame7)
         scrollbar.pack(side="right", fill="y")
         listbox = tkinter.Listbox(frame7, yscrollcommand=scrollbar.set)
-
         listbox.pack(side="left")
         scrollbar["command"] = listbox.yview
 
+        # 리스트 박스에 출력
+        for i in range(len(searchlist)):
+            for j in range(7):
+                listbox.insert(i, searchlist[i][j])
 
-
-        imgObj = PhotoImage(file="ex.gif")
+        #이미지
+        global imgfile
+        imgfile="ex.gif"
+        img = PhotoImage(file=imgfile)
         imgLabel = Label(window)
-        imgLabel.config(image=imgObj)
+        imgLabel.config(image=img)
         imgLabel.place(x=10,y=310)
 
         frame4 = Frame(window)
@@ -182,5 +192,5 @@ class Animals:
 
         window.mainloop()
 
-Search('한국')
+Search('인천') #Entry.get(Animals().e1) 해서 가져올 예정
 Animals()
