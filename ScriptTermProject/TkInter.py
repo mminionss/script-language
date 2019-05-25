@@ -4,6 +4,7 @@ import tkinter
 from tkinter import *
 from tkinter import Tk, Label, PhotoImage
 import http.client
+import requests
 import urllib
 from xml.dom.minidom import parse, parseString
 from xml.etree import ElementTree
@@ -88,7 +89,8 @@ def SearchAddr(keyword): #주소로 검색
                                "진행상태 : " + item.find("processState").text,
                                item.find("careNm").text,
                                item.find("careTel").text,
-                               careAddr.text))
+                               careAddr.text,
+                               item.find("filename").text))
     PrintList()
 
 def SearchCenter(keyword): #센터 이름으로 검색
@@ -121,6 +123,12 @@ def SortList():
     searchlist.sort(reverse=True)
 
 class Animals:
+    def GetImageUrl(self):
+        selection = self.listbox.curselection() # 튜플 형식으로 반환해줌
+        print(selection)
+        # filename = searchlist[selection][7]
+        # return filename
+
     def __init__(self):
         window = tkinter.Tk()
         window.title("유기 동물 조회 서비스")
@@ -161,20 +169,48 @@ class Animals:
         frame7.place(x=10,y=120)
         scrollbar = tkinter.Scrollbar(frame7)
         scrollbar.pack(side="right", fill="y")
-        listbox = tkinter.Listbox(frame7, yscrollcommand=scrollbar.set,width='50')
-        listbox.pack(side="left")
-        scrollbar["command"] = listbox.yview
-        # listbox.insert(0, "11111")
-        # listbox.insert(1, "22222")
+        self.listbox = tkinter.Listbox(frame7, yscrollcommand=scrollbar.set,width='50')
+        self.listbox.pack(side="left")
+        scrollbar["command"] = self.listbox.yview
         # 리스트 박스에 출력
         for i in range(len(searchlist)):
-            listbox.insert(0,searchlist[i][0]+"\n"+searchlist[i][1]+"\n"+searchlist[i][2]+"\n"+searchlist[i][3]+"\n"+searchlist[i][4]+"\n"+searchlist[i][5]+"\n"+searchlist[i][6])
-
+            self.listbox.insert(0,searchlist[i][0]+"\n"+searchlist[i][1]+"\n"+searchlist[i][2]+"\n"+searchlist[i][3]+"\n"+searchlist[i][4]+"\n"+searchlist[i][5]+"\n"+searchlist[i][6])
+        selection = self.listbox.curselection()  # 튜플 형식으로 반환해줌
+        print(selection)
 
         #이미지
-        global imgfile
-        imgfile="ex.gif"
-        img = PhotoImage(file=imgfile)
+
+        #이미지 uri -> 파일로 저장하는 코드
+            #
+            # # load library
+            # import urllib.request
+            # import os
+            #
+            # # image url to download
+            # url = "http://cfile30.uf.tistory.com/image/99BA21335A118CC2050938"
+            #
+            # # file path and file name to download
+            # outpath = "C:/test/"
+            # outfile = "test.png"
+            #
+            # # Create when directory does not exist
+            # if not os.path.isdir(outpath):
+            #     os.makedirs(outpath)
+            #
+            # # download
+            # urllib.request.urlretrieve(url, outpath + outfile)
+            # print("complete!")
+        #
+
+        # global imgfile
+        # import os
+        # image_url = self.GetImageUrl()
+        # image = requests.get(image_url).content
+        # filename = os.path.basename(image_url)
+        # with open(filename,'wb') as f:
+        #     f.write(image)
+        filename="ex.gif"
+        img = PhotoImage(file=filename)
         imgLabel = Label(window)
         imgLabel.config(image=img)
         imgLabel.place(x=10,y=310)
