@@ -122,12 +122,51 @@ def PrintList(): #리스트에 추가된 데이터를 출력
 def SortList():
     searchlist.sort(reverse=True)
 
+global selection
+
 class Animals:
-    def GetImageUrl(self):
-        selection = self.listbox.curselection() # 튜플 형식으로 반환해줌
-        print(selection)
+    def GetSelection(self):
+
+        selectionlist = list(self.listbox.curselection()) # 튜플 형식으로 반환해줌
+        selection = selectionlist[0]
+        print(selection) #선택 값이 안들어와
+        # assert len(selection)==1
+        # z = selection[0]
+        # if z=='0':
+        #     print('0')
+
         # filename = searchlist[selection][7]
         # return filename
+        filename = self.GetImage(selection)
+        return filename
+
+    def GetImage(self,selection):
+        filename = searchlist[selection][7]
+
+        # load library
+        import urllib.request
+        import os
+
+        # image url to download
+        url = filename
+
+        # file path and file name to download
+        outpath = "C:/Users/tiuri/Documents/GitHub/script-language/ScriptTermProject/"
+        outfile = "test.jpg"
+
+        # # Create when directory does not exist
+        # if not os.path.isdir(outpath):
+        #     os.makedirs(outpath)
+
+        # download
+        urllib.request.urlretrieve(url, outpath + outfile)
+        print("complete!")
+
+        img = PhotoImage()
+        self.imgLabel.configure(image=img)
+        self.imgLabel.image = img
+        self.imgLabel.place(x=10,y=310)
+
 
     def __init__(self):
         window = tkinter.Tk()
@@ -169,37 +208,24 @@ class Animals:
         frame7.place(x=10,y=120)
         scrollbar = tkinter.Scrollbar(frame7)
         scrollbar.pack(side="right", fill="y")
-        self.listbox = tkinter.Listbox(frame7, yscrollcommand=scrollbar.set,width='50')
+        self.listbox = tkinter.Listbox(frame7, yscrollcommand=scrollbar.set,width='50',selectmode='SINGLE')
         self.listbox.pack(side="left")
         scrollbar["command"] = self.listbox.yview
         # 리스트 박스에 출력
         for i in range(len(searchlist)):
             self.listbox.insert(0,searchlist[i][0]+"\n"+searchlist[i][1]+"\n"+searchlist[i][2]+"\n"+searchlist[i][3]+"\n"+searchlist[i][4]+"\n"+searchlist[i][5]+"\n"+searchlist[i][6])
-        selection = self.listbox.curselection()  # 튜플 형식으로 반환해줌
-        print(selection)
 
-        #이미지
+
+        #상세정보 버튼 추가
+        #만약 버튼을 눌렀다면 --> command = GetSelection
+        buttonInfo = Button(window,text="상세정보",command=self.GetSelection)
+        buttonInfo.place(x=300,y=290)
+
+        #버튼 클릭->GetSelection -> GetImage
 
         #이미지 uri -> 파일로 저장하는 코드
             #
-            # # load library
-            # import urllib.request
-            # import os
-            #
-            # # image url to download
-            # url = "http://cfile30.uf.tistory.com/image/99BA21335A118CC2050938"
-            #
-            # # file path and file name to download
-            # outpath = "C:/test/"
-            # outfile = "test.png"
-            #
-            # # Create when directory does not exist
-            # if not os.path.isdir(outpath):
-            #     os.makedirs(outpath)
-            #
-            # # download
-            # urllib.request.urlretrieve(url, outpath + outfile)
-            # print("complete!")
+
         #
 
         # global imgfile
@@ -209,11 +235,11 @@ class Animals:
         # filename = os.path.basename(image_url)
         # with open(filename,'wb') as f:
         #     f.write(image)
-        filename="ex.gif"
-        img = PhotoImage(file=filename)
-        imgLabel = Label(window)
-        imgLabel.config(image=img)
-        imgLabel.place(x=10,y=310)
+
+        img = PhotoImage(file="ex.gif")
+        self.imgLabel = Label(window)
+        self.imgLabel.config(image=img)
+        self.imgLabel.place(x=10,y=310)
 
         frame4 = Frame(window)
         frame4.place(x=150,y=360)
