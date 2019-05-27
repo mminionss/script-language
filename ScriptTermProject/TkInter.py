@@ -2,12 +2,13 @@
 
 import tkinter
 from tkinter import *
-from tkinter import Tk, Label, PhotoImage
+#from tkinter import Tk, Label, PhotoImage
 import http.client
 import requests
 import urllib
 from xml.dom.minidom import parse, parseString
 from xml.etree import ElementTree
+from PIL import ImageTk
 
 server = "openapi.animal.go.kr"
 conn = None
@@ -137,14 +138,14 @@ class Animals:
 
         # filename = searchlist[selection][7]
         # return filename
-        filename = self.GetImage(selection)
-        return filename
+        self.GetImage(selection)
 
     def GetImage(self,selection):
         filename = searchlist[selection][7]
 
         # load library
         import urllib.request
+        from PIL import ImageTk
         import os
 
         # image url to download
@@ -162,10 +163,9 @@ class Animals:
         urllib.request.urlretrieve(url, outpath + outfile)
         print("complete!")
 
-        img = PhotoImage()
+        img = ImageTk.PhotoImage(file=outfile)
         self.imgLabel.configure(image=img)
         self.imgLabel.image = img
-        self.imgLabel.place(x=10,y=310)
 
 
     def __init__(self):
@@ -236,9 +236,8 @@ class Animals:
         # with open(filename,'wb') as f:
         #     f.write(image)
 
-        img = PhotoImage(file="ex.gif")
-        self.imgLabel = Label(window)
-        self.imgLabel.config(image=img)
+        photo = ImageTk.PhotoImage(file="ex.gif")
+        self.imgLabel = Label(window,image=photo)
         self.imgLabel.place(x=10,y=310)
 
         frame4 = Frame(window)
