@@ -144,6 +144,10 @@ class Animals:
         self.searchlist.sort(reverse=True)
         self.PrintList()
 
+    def SortNameReverse(self):
+        self.searchlist.sort(reverse=False)
+        self.PrintList()
+
     def GetSelection(self):
         selectionlist = list(self.listbox.curselection()) # 튜플 형식으로 반환해줌
         selection = selectionlist[0]
@@ -225,11 +229,13 @@ class Animals:
         searchButton=Button(window,text="검색",command=self.Search)
         searchButton.place(x=250,y=60)
 
-        Label(window, text="정렬").place(x=110,y=90)
+        Label(window, text="정렬").place(x=30,y=92)
         sortDate = Button(window, text="날짜순",command=self.SortDate)
-        sortDate.place(x=150,y=90)
-        sortName = Button(window, text="이름순",command=self.SortName)
-        sortName.place(x=200,y=90)
+        sortDate.place(x=65,y=90)
+        sortName = Button(window, text="이름순(내림차순)",command=self.SortName)
+        sortName.place(x=120,y=90)
+        sortNameReverse = Button(window, text="이름순(오름차순)", command=self.SortNameReverse)
+        sortNameReverse.place(x=230, y=90)
 
         #리스트박스
         frame7 = Frame(window)
