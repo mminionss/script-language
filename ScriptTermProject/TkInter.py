@@ -29,6 +29,7 @@ def connectServer():
     conn.set_debuglevel(1)
 
 global kindNm
+
 kindNm="417000"
 
 
@@ -80,16 +81,16 @@ class Animals:
         self.GetRadio()
         keyword = Entry.get(self.searchEntry)
         print(keyword)
-        # 검색 옵션이 강아지일 경우
-
         # 검색 키워드가 주소일 경우
-        self.SearchAddr(keyword)
+        if self.variable.get() == "주소":
+            self.SearchAddr(keyword)
+
         # 검색 키워드가 종 이름 #아이디어노트: tkInter 탭하나 만들어서 종 이름 쭈루룩 출력해서 참고가능하게.
-        # SearchKind(keyword)
+        if self.variable.get() == "품종":
+            self.SearchKind(keyword)
         # 검색 키워드가 보호소 이름
-        # SearchCenter(keyword)
-
-
+        if self.variable.get() == "보호소 이름":
+            self.SearchCenter(keyword)
 
     def SearchAddr(self,keyword):  # 주소로 검색
         for item in self.getData():
@@ -108,28 +109,44 @@ class Animals:
         self.PrintList()
 
     def SearchCenter(self,keyword):  # 센터 이름으로 검색
-        searchlist = []
         for item in self.getData():
             careNm = item.find("careNm")
             if (careNm.text.find(keyword)) >= 0:  # 내용이 존재하면
-                searchlist.append(careNm.text)
-        return searchlist
+                self.searchlist.append(
+                    (item.find("kindCd").text + " " + item.find("age").text + " " + item.find("sexCd").text + " ",
+                     "유기날짜 : " + item.find("happenDt").text,
+                     "털 색 : " + item.find("colorCd").text + " ",
+                     "특징 : " + item.find("specialMark").text,
+                     "진행상태 : " + item.find("processState").text,
+                     careNm.text,
+                     item.find("careTel").text,
+                     item.find("careAddr").text,
+                     item.find("filename").text))
+        self.PrintList()
 
     def SearchKind(self,keyword):  # 종 이름으로 검색
-        searchlist = []
         for item in self.getData():
             kindCd = item.find("kindCd")
             if (kindCd.text.find(keyword)) >= 0:  # 내용이 존재하면
-                searchlist.append(kindCd.text)
-        return searchlist
+                self.searchlist.append(
+                    (kindCd.text + " " + item.find("age").text + " " + item.find("sexCd").text + " ",
+                     "유기날짜 : " + item.find("happenDt").text,
+                     "털 색 : " + item.find("colorCd").text + " ",
+                     "특징 : " + item.find("specialMark").text,
+                     "진행상태 : " + item.find("processState").text,
+                     item.find("careNm").text,
+                     item.find("careTel").text,
+                     item.find("careAddr").text,
+                     item.find("filename").text))
+        self.PrintList()
 
     def PrintList(self):  # 리스트에 추가된 데이터를 출력
         self.listbox.delete(0, 'end')
-        # 화면에 출력해보기
-        for i in range(len(self.searchlist)):
-            for j in range(8):
-                print(self.searchlist[i][j])
-            print()
+        # # 화면에 출력해보기
+        # for i in range(len(self.searchlist)):
+        #     for j in range(8):
+        #         print(self.searchlist[i][j])
+        #     print()
         # 리스트 박스에 출력
         for i in range(len(self.searchlist)):
             self.listbox.insert(0, self.searchlist[i][0] + "\n" + self.searchlist[i][1] + "\n" + self.searchlist[i][2] + "\n" +self.searchlist[i][3] + "\n" +
@@ -141,14 +158,17 @@ class Animals:
         self.PrintList()
 
     def SortName(self):
-        self.searchlist.sort(reverse=True)
+
         self.PrintList()
+        self.searchlist.sort(reverse=True)
 
     def SortNameReverse(self):
-        self.searchlist.sort(reverse=False)
+
         self.PrintList()
+        self.searchlist.sort(reverse=False)
 
     def GetSelection(self):
+
         selectionlist = list(self.listbox.curselection()) # 튜플 형식으로 반환해줌
         selection = selectionlist[0]
         print(selection) #선택 값이 안들어와
@@ -160,6 +180,7 @@ class Animals:
         # filename = searchlist[selection][7]
         # return filename
         self.GetImage(selection)
+        self.SendMail(selection)
 
     def GetRadio(self):
         global kindNm
@@ -171,7 +192,7 @@ class Animals:
             kindNm = "429900"
 
     def GetImage(self,selection):
-        filename = self.searchlist[selection][7]
+        filename = self.searchlist[selection][8]
 
         # load library
         import urllib.request
@@ -197,6 +218,27 @@ class Animals:
         self.imgLabel.configure(image=img)
         self.imgLabel.image = img
 
+    def SendMail(self,selection):
+        # selectionlist = list(self.listbox.curselection())  # 튜플 형식으로 반환해줌
+        # selection = selectionlist[0]
+        searchstring=""
+        for i in range(7):
+            searchstring += self.searchlist[selection][i] + "\n"
+        import smtplib
+        from email.mime.text import MIMEText
+
+        s = smtplib.SMTP('smtp.gmail.com', 587)
+
+        s.starttls()
+
+        s.login('jinsy2098@gmail.com', 'dapfiukbpfiiilcm')
+
+        msg = MIMEText(searchstring)
+        msg['Subject'] = '유기동물 상세정보 조회 !'
+
+        s.sendmail("jinsy2098@gmail.com", "tiurit12@naver.com", msg.as_string())
+
+        s.quit()
 
     def __init__(self):
         window = tkinter.Tk()
@@ -218,10 +260,10 @@ class Animals:
             '보호소 이름'
         ]  # etc
 
-        variable = StringVar(window)
-        variable.set(OPTIONS[0])  # default value
-        w = OptionMenu(window, variable, *OPTIONS)
-        w.place(x=100,y=25)
+        self.variable = StringVar(window)
+        self.variable.set(OPTIONS[0])  # default value
+        optionMenu = OptionMenu(window, self.variable, *OPTIONS)
+        optionMenu.place(x=100,y=25)
 
         #검색 엔트리
         self.searchEntry = Entry(window)
@@ -229,9 +271,9 @@ class Animals:
         searchButton=Button(window,text="검색",command=self.Search)
         searchButton.place(x=250,y=60)
 
-        Label(window, text="정렬").place(x=30,y=92)
-        sortDate = Button(window, text="날짜순",command=self.SortDate)
-        sortDate.place(x=65,y=90)
+        Label(window, text="정렬").place(x=70,y=92)
+        # sortDate = Button(window, text="날짜순",command=self.SortDate)
+        # sortDate.place(x=65,y=90)
         sortName = Button(window, text="이름순(내림차순)",command=self.SortName)
         sortName.place(x=120,y=90)
         sortNameReverse = Button(window, text="이름순(오름차순)", command=self.SortNameReverse)
@@ -266,13 +308,13 @@ class Animals:
         # with open(filename,'wb') as f:
         #     f.write(image)
 
-        photo = ImageTk.PhotoImage(file="ex.gif")
+        photo = ImageTk.PhotoImage(file="grapes.gif")
         self.imgLabel = Label(window,image=photo)
         self.imgLabel.place(x=10,y=310)
 
         frame4 = Frame(window)
         frame4.place(x=150,y=360)
-        b4 = Button(window, text="이메일")
+        b4 = Button(window, text="이메일",command=self.GetSelection)
         b4.place(x=210,y=360)
 
         b5 = Button(window, text="☆")
