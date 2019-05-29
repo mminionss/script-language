@@ -170,8 +170,8 @@ class Animals:
     def GetSelection(self):
 
         selectionlist = list(self.listbox.curselection()) # 튜플 형식으로 반환해줌
-        selection = selectionlist[0]
-        print(selection) #선택 값이 안들어와
+        self.selection = selectionlist[0]
+        print(self.selection) #선택 값이 안들어와
         # assert len(selection)==1
         # z = selection[0]
         # if z=='0':
@@ -179,8 +179,7 @@ class Animals:
 
         # filename = searchlist[selection][7]
         # return filename
-        self.GetImage(selection)
-        self.SendMail(selection)
+        self.GetImage()
 
     def GetRadio(self):
         global kindNm
@@ -191,8 +190,8 @@ class Animals:
         elif self.v.get() == 3:
             kindNm = "429900"
 
-    def GetImage(self,selection):
-        filename = self.searchlist[selection][8]
+    def GetImage(self):
+        filename = self.searchlist[self.selection][8]
 
         # load library
         import urllib.request
@@ -218,12 +217,12 @@ class Animals:
         self.imgLabel.configure(image=img)
         self.imgLabel.image = img
 
-    def SendMail(self,selection):
+    def SendMail(self):
         # selectionlist = list(self.listbox.curselection())  # 튜플 형식으로 반환해줌
         # selection = selectionlist[0]
         searchstring=""
         for i in range(7):
-            searchstring += self.searchlist[selection][i] + "\n"
+            searchstring += self.searchlist[self.selection][i] + "\n"
         import smtplib
         from email.mime.text import MIMEText
 
@@ -314,7 +313,7 @@ class Animals:
 
         frame4 = Frame(window)
         frame4.place(x=150,y=360)
-        b4 = Button(window, text="이메일",command=self.GetSelection)
+        b4 = Button(window, text="이메일",command=self.SendMail)
         b4.place(x=210,y=360)
 
         b5 = Button(window, text="☆")

@@ -35,28 +35,20 @@
         <entry file="file://$PROJECT_DIR$/TicTacToe.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="361">
-              <caret line="19" column="16" lean-forward="true" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+              <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TkInter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="4" column="42" lean-forward="true" selection-start-line="4" selection-start-column="42" selection-end-line="4" selection-end-column="42" />
+            <state relative-caret-position="96">
+              <caret line="236" lean-forward="true" selection-start-line="236" selection-end-line="236" />
               <folding>
+                <element signature="e#24#38#0" expanded="true" />
                 <element signature="e#350#367#0" />
                 <element signature="e#406#507#0" />
-                <element signature="e#534#626#0" />
-                <element signature="e#739#2093#0" />
-                <element signature="e#2154#2312#0" />
-                <element signature="e#2474#2954#0" />
-                <element signature="e#3835#4664#0" />
-                <element signature="e#3971#4197#0" />
-                <element signature="e#4851#4953#0" />
-                <element signature="e#5571#5768#0" />
-                <element signature="e#5812#6532#0" />
               </folding>
             </state>
           </provider>
@@ -65,8 +57,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/email/mime/text.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="41" column="41" lean-forward="true" selection-start-line="41" selection-start-column="41" selection-end-line="41" selection-end-column="41" />
+            <state relative-caret-position="760">
+              <caret line="41" column="41" selection-start-line="41" selection-start-column="41" selection-end-line="41" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -74,8 +66,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gmail.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="14" column="8" lean-forward="true" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
+            <state relative-caret-position="247">
+              <caret line="14" column="8" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -83,18 +75,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SamokGame.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="61" lean-forward="true" selection-start-line="61" selection-end-line="61" />
-              <folding>
-                <element signature="e#11#32#0" expanded="true" />
-                <element signature="e#311#979#0" />
-                <element signature="e#1412#1993#0" />
-                <element signature="e#1496#1993#0" />
-                <element signature="e#1121#2037#0" />
-              </folding>
+            <state relative-caret-position="543">
+              <caret line="61" selection-start-line="61" selection-end-line="61" />
             </state>
           </provider>
         </entry>
@@ -102,7 +87,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/tkinter/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
+            <state relative-caret-position="24301">
               <caret line="1282" selection-start-line="1282" selection-end-line="1282" />
             </state>
           </provider>
@@ -138,15 +123,16 @@
         <option value="$PROJECT_DIR$/foliumTest.py" />
         <option value="$PROJECT_DIR$/help.py" />
         <option value="$PROJECT_DIR$/gmail.py" />
-        <option value="$PROJECT_DIR$/TkInter.py" />
         <option value="$PROJECT_DIR$/SamokGame.py" />
+        <option value="$PROJECT_DIR$/TkInter.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="873" />
-    <option name="width" value="1054" />
-    <option name="height" value="1038" />
+    <option name="x" value="363" />
+    <option name="y" value="-33" />
+    <option name="width" value="1055" />
+    <option name="height" value="1039" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -154,7 +140,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -166,6 +151,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -185,7 +171,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.SamokGame">
+  <component name="RunManager" selected="Python.TkInter">
     <configuration name="SamokGame" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="ScriptTermProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -293,8 +279,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.SamokGame" />
         <item itemvalue="Python.TkInter" />
+        <item itemvalue="Python.SamokGame" />
         <item itemvalue="Python.gmail" />
         <item itemvalue="Python.help" />
         <item itemvalue="Python.foliumTest" />
@@ -325,8 +311,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.01981506" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.09379128" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -364,6 +351,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/TicTacToe.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/email/mime/text.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="760">
+          <caret line="41" column="41" selection-start-line="41" selection-start-column="41" selection-end-line="41" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gmail.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="14" column="8" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/tkinter/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24301">
+          <caret line="1282" selection-start-line="1282" selection-end-line="1282" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/osm.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="38">
@@ -371,67 +389,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gmail.py">
+    <entry file="file://$PROJECT_DIR$/SamokGame.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" column="8" lean-forward="true" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/email/mime/text.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="41" column="41" lean-forward="true" selection-start-line="41" selection-start-column="41" selection-end-line="41" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TicTacToe.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="19" column="16" lean-forward="true" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/tkinter/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="1282" selection-start-line="1282" selection-end-line="1282" />
+        <state relative-caret-position="543">
+          <caret line="61" selection-start-line="61" selection-end-line="61" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/TkInter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" column="42" lean-forward="true" selection-start-line="4" selection-start-column="42" selection-end-line="4" selection-end-column="42" />
+        <state relative-caret-position="96">
+          <caret line="236" lean-forward="true" selection-start-line="236" selection-end-line="236" />
           <folding>
+            <element signature="e#24#38#0" expanded="true" />
             <element signature="e#350#367#0" />
             <element signature="e#406#507#0" />
-            <element signature="e#534#626#0" />
-            <element signature="e#739#2093#0" />
-            <element signature="e#2154#2312#0" />
-            <element signature="e#2474#2954#0" />
-            <element signature="e#3835#4664#0" />
-            <element signature="e#3971#4197#0" />
-            <element signature="e#4851#4953#0" />
-            <element signature="e#5571#5768#0" />
-            <element signature="e#5812#6532#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SamokGame.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="61" lean-forward="true" selection-start-line="61" selection-end-line="61" />
-          <folding>
-            <element signature="e#11#32#0" expanded="true" />
-            <element signature="e#311#979#0" />
-            <element signature="e#1412#1993#0" />
-            <element signature="e#1496#1993#0" />
-            <element signature="e#1121#2037#0" />
           </folding>
         </state>
       </provider>
