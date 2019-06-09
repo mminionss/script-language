@@ -9,6 +9,9 @@ import urllib
 from xml.dom.minidom import parse, parseString
 from xml.etree import ElementTree
 from PIL import ImageTk
+from tkinter import ttk
+import folium
+import webbrowser
 
 server = "openapi.animal.go.kr"
 conn = None
@@ -148,27 +151,33 @@ class Animals:
         #         print(self.searchlist[i][j])
         #     print()
         # 리스트 박스에 출력
-        for i in range(len(self.searchlist)):
-            self.listbox.insert(0, self.searchlist[i][0] + "\n" + self.searchlist[i][1] + "\n" + self.searchlist[i][2] + "\n" +self.searchlist[i][3] + "\n" +
-                                self.searchlist[i][4] + "\n" + self.searchlist[i][5] + "\n" + self.searchlist[i][6] + "\n" + self.searchlist[i][7])
+        for i in range(len(self.searchlist)-1,-1,-1):
+            # self.listbox.insert(0, self.searchlist[i][0] + "\n" + self.searchlist[i][1] + "\n" + self.searchlist[i][2] + "\n" +self.searchlist[i][3] + "\n" +
+            #                     self.searchlist[i][4] + "\n" + self.searchlist[i][5] + "\n" + self.searchlist[i][6] + "\n" + self.searchlist[i][7])
+            self.listbox.insert(0, self.searchlist[i][0] + "\n" + self.searchlist[i][1] + "\n")
 
+    def PrintInfo(self):
+        self.infoLabel.forget() #내용 싹 지우고 다시 출력
+        infoString=""
+        for i in range(7):  # 메일은 전체 내용 출력
+            infoString += self.searchlist[self.selection][i] + "\n"
+        self.infoLabel.config(text=infoString)
 
     def SortDate(self):
         self.searchlist = sorted(self.searchlist, key=lambda date:self.searchlist[1])
         self.PrintList()
 
-    def SortName(self):
-
-        self.PrintList()
-        self.searchlist.sort(reverse=True)
-
-    def SortNameReverse(self):
+    def SortName(self):#가나다 내림차순
 
         self.PrintList()
         self.searchlist.sort(reverse=False)
 
-    def GetSelection(self):
+    def SortNameReverse(self):
 
+        self.PrintList()
+        self.searchlist.sort(reverse=True)
+
+    def GetSelection(self): #상세정보 눌렀을 때
         selectionlist = list(self.listbox.curselection()) # 튜플 형식으로 반환해줌
         self.selection = selectionlist[0]
         print(self.selection) #선택 값이 안들어와
@@ -180,6 +189,7 @@ class Animals:
         # filename = searchlist[selection][7]
         # return filename
         self.GetImage()
+        self.PrintInfo()
 
     def GetRadio(self):
         global kindNm
@@ -221,7 +231,7 @@ class Animals:
         # selectionlist = list(self.listbox.curselection())  # 튜플 형식으로 반환해줌
         # selection = selectionlist[0]
         searchstring=""
-        for i in range(7):
+        for i in range(7): #메일은 전체 내용 출력
             searchstring += self.searchlist[self.selection][i] + "\n"
         import smtplib
         from email.mime.text import MIMEText
@@ -239,47 +249,66 @@ class Animals:
 
         s.quit()
 
+    def FindRocation(self):
+        # 위도 경도 지정
+        # 한국동물구조관리협회 37.870134, 126.983358
+        map_osm = folium.Map(location=[37.870134, 126.983358], zoom_start=16)
+        # 마커 지정
+        folium.Marker([37.870134, 126.983358]).add_to(map_osm)
+        # html 파일로 저장
+        map_osm.save('osm.html')
+
+        webbrowser.open("osm.html")
     def __init__(self):
         window = tkinter.Tk()
         window.title("유기 동물 조회 서비스")
         window.geometry("400x600")
         window.resizable(False, False)
         self.searchlist = []
+        # 노트북으로 탭 만들기
+        notebook = ttk.Notebook(window, width=400, height=600)
+        notebook.place(x=0, y=0)
+        tab1 = Frame(notebook)
+        tab2 = Frame(notebook)
+        tab3 = Frame(notebook)
+        notebook.add(tab1, text="검색")     #메인
+        notebook.add(tab2, text="즐겨찾기") #즐찾 즐겨찾기 한거 메일로 보내기 즐찾리스트, 메일 주소 입력 엔트리, 메일 보내기 버튼
+        notebook.add(tab3, text="통계")     # 강아지 품종 통계 그래프, 날짜 통계 그래프
 
         self.v=IntVar()
-        Label(window, text="검색옵션").place(x=60,y=0)
-        radio_dog = Radiobutton(window, text = "강아지", variable=self.v, value = 1).place(x=120,y=0)
-        radio_cat = Radiobutton(window, text = "고양이", variable = self.v, value = 2).place(x=180,y=0)
-        radio_etc = Radiobutton(window, text="기타", variable=self.v, value=3).place(x=240,y=0)
+        Label(tab1, text="검색옵션").place(x=60,y=20)
+        Radiobutton(tab1, text = "강아지", variable=self.v, value = 1).place(x=120,y=20)
+        Radiobutton(tab1, text = "고양이", variable = self.v, value = 2).place(x=180,y=20)
+        Radiobutton(tab1, text="기타", variable=self.v, value=3).place(x=240,y=20)
 
-
+        #롤다운 리스트
         OPTIONS = [
             '주소',
             '품종',
             '보호소 이름'
         ]  # etc
 
-        self.variable = StringVar(window)
+        self.variable = StringVar(tab1)
         self.variable.set(OPTIONS[0])  # default value
-        optionMenu = OptionMenu(window, self.variable, *OPTIONS)
-        optionMenu.place(x=100,y=25)
+        optionMenu = OptionMenu(tab1, self.variable, *OPTIONS)
+        optionMenu.place(x=50,y=55)
 
         #검색 엔트리
-        self.searchEntry = Entry(window)
-        self.searchEntry.place(x=100, y=60)
-        searchButton=Button(window,text="검색",command=self.Search)
-        searchButton.place(x=250,y=60)
+        self.searchEntry = Entry(tab1)
+        self.searchEntry.place(x=135, y=60)
+        searchButton=Button(tab1,text="검색",command=self.Search)
+        searchButton.place(x=285,y=55)
 
-        Label(window, text="정렬").place(x=70,y=92)
+        Label(tab1, text="정렬").place(x=110,y=95)
         # sortDate = Button(window, text="날짜순",command=self.SortDate)
         # sortDate.place(x=65,y=90)
-        sortName = Button(window, text="이름순(내림차순)",command=self.SortName)
-        sortName.place(x=120,y=90)
-        sortNameReverse = Button(window, text="이름순(오름차순)", command=self.SortNameReverse)
-        sortNameReverse.place(x=230, y=90)
+        sortName = Button(tab1, text="이름순(내림차순)",command=self.SortName)
+        sortName.place(x=150,y=95)
+        sortNameReverse = Button(tab1, text="이름순(오름차순)", command=self.SortNameReverse)
+        sortNameReverse.place(x=260, y=95)
 
         #리스트박스
-        frame7 = Frame(window)
+        frame7 = Frame(tab1)
         frame7.place(x=10,y=120)
         scrollbar = tkinter.Scrollbar(frame7)
         scrollbar.pack(side="right", fill="y")
@@ -289,8 +318,8 @@ class Animals:
 
         #상세정보 버튼 추가
         #만약 버튼을 눌렀다면 --> command = GetSelection
-        buttonInfo = Button(window,text="상세정보",command=self.GetSelection)
-        buttonInfo.place(x=300,y=290)
+        buttonInfo = Button(tab1,text="상세정보",command=self.GetSelection)
+        buttonInfo.place(x=20,y=300)
 
         #버튼 클릭->GetSelection -> GetImage
 
@@ -307,20 +336,31 @@ class Animals:
         # with open(filename,'wb') as f:
         #     f.write(image)
 
+        #상세정보 출력
+        self.infoLabel = tkinter.Label(tab1, width=30, height=10, relief="groove",text="")
+        self.infoLabel.place(x=20, y=340)
+
+        # 사진
         photo = ImageTk.PhotoImage(file="grapes.gif")
-        self.imgLabel = Label(window,image=photo)
-        self.imgLabel.place(x=10,y=310)
+        self.imgLabel = Label(tab1, image=photo)
+        self.imgLabel.place(x=250, y=360)
 
-        frame4 = Frame(window)
-        frame4.place(x=150,y=360)
-        b4 = Button(window, text="이메일",command=self.SendMail)
-        b4.place(x=210,y=360)
+        #하단 버튼
+        emailButton = Button(tab2, text="이메일", command=self.SendMail)
+        emailButton.place(x=100, y=300)
+        rocationButton = Button(tab1, text="보호소 위치보기",command=self.FindRocation)
+        rocationButton.place(x=100, y=300)
+        starButton = Button(tab1, text="☆")
+        starButton.place(x=210,y=300)
 
-        b5 = Button(window, text="☆")
-        b5.place(x=360,y=360)
 
-        b6 = Button(window, text="보호소 위치보기")
-        b6.place(x=260,y=360)
+
+
+        #frame4.place(x=150, y=360)
+
+
+
+
 
         window.mainloop()
 
