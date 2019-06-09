@@ -37,6 +37,7 @@ kindNm="417000"
 
 
 global selection
+global selectionStar
 
 class Animals:
     def getData(self):  # search에서 호출
@@ -79,7 +80,7 @@ class Animals:
     # 주소, 보호소이름, 보호소 전화번호, 동물 정보(나이, 종, 털 색깔, 성별, 특징, 상태)
     # 종+나이+성별, 털색깔+특징 ,상태, 보호소 이름, 전화번호, 주소
     def Search(self):  # 검색버튼을 눌렀을 때 실행
-        self.searchlist.clear()
+        self.searchList.clear()
 
         self.GetRadio()
         keyword = Entry.get(self.searchEntry)
@@ -99,7 +100,7 @@ class Animals:
         for item in self.getData():
             careAddr = item.find("careAddr")
             if (careAddr.text.find(keyword)) >= 0:  # 내용이 존재하면
-                self.searchlist.append(
+                self.searchList.append(
                     (item.find("kindCd").text + " " + item.find("age").text + " " + item.find("sexCd").text + " ",
                      "유기날짜 : " + item.find("happenDt").text,
                      "털 색 : " + item.find("colorCd").text + " ",
@@ -115,7 +116,7 @@ class Animals:
         for item in self.getData():
             careNm = item.find("careNm")
             if (careNm.text.find(keyword)) >= 0:  # 내용이 존재하면
-                self.searchlist.append(
+                self.searchList.append(
                     (item.find("kindCd").text + " " + item.find("age").text + " " + item.find("sexCd").text + " ",
                      "유기날짜 : " + item.find("happenDt").text,
                      "털 색 : " + item.find("colorCd").text + " ",
@@ -131,7 +132,7 @@ class Animals:
         for item in self.getData():
             kindCd = item.find("kindCd")
             if (kindCd.text.find(keyword)) >= 0:  # 내용이 존재하면
-                self.searchlist.append(
+                self.searchList.append(
                     (kindCd.text + " " + item.find("age").text + " " + item.find("sexCd").text + " ",
                      "유기날짜 : " + item.find("happenDt").text,
                      "털 색 : " + item.find("colorCd").text + " ",
@@ -151,31 +152,31 @@ class Animals:
         #         print(self.searchlist[i][j])
         #     print()
         # 리스트 박스에 출력
-        for i in range(len(self.searchlist)-1,-1,-1):
+        for i in range(len(self.searchList) - 1, -1, -1):
             # self.listbox.insert(0, self.searchlist[i][0] + "\n" + self.searchlist[i][1] + "\n" + self.searchlist[i][2] + "\n" +self.searchlist[i][3] + "\n" +
             #                     self.searchlist[i][4] + "\n" + self.searchlist[i][5] + "\n" + self.searchlist[i][6] + "\n" + self.searchlist[i][7])
-            self.listbox.insert(0, self.searchlist[i][0] + "\n" + self.searchlist[i][1] + "\n")
+            self.listbox.insert(0, self.searchList[i][0] + "\n" + self.searchList[i][1] + "\n")
 
     def PrintInfo(self):
         self.infoLabel.forget() #내용 싹 지우고 다시 출력
         infoString=""
-        for i in range(7):  # 메일은 전체 내용 출력
-            infoString += self.searchlist[self.selection][i] + "\n"
+        for i in range(7):
+            infoString += self.searchList[self.selection][i] + "\n"
         self.infoLabel.config(text=infoString)
 
     def SortDate(self):
-        self.searchlist = sorted(self.searchlist, key=lambda date:self.searchlist[1])
+        self.searchList = sorted(self.searchList, key=lambda date:self.searchList[1])
         self.PrintList()
 
     def SortName(self):#가나다 내림차순
 
         self.PrintList()
-        self.searchlist.sort(reverse=False)
+        self.searchList.sort(reverse=False)
 
     def SortNameReverse(self):
 
         self.PrintList()
-        self.searchlist.sort(reverse=True)
+        self.searchList.sort(reverse=True)
 
     def GetSelection(self): #상세정보 눌렀을 때
         selectionlist = list(self.listbox.curselection()) # 튜플 형식으로 반환해줌
@@ -201,7 +202,7 @@ class Animals:
             kindNm = "429900"
 
     def GetImage(self):
-        filename = self.searchlist[self.selection][8]
+        filename = self.searchList[self.selection][8]
 
         # load library
         import urllib.request
@@ -227,28 +228,6 @@ class Animals:
         self.imgLabel.configure(image=img)
         self.imgLabel.image = img
 
-    def SendMail(self):
-        # selectionlist = list(self.listbox.curselection())  # 튜플 형식으로 반환해줌
-        # selection = selectionlist[0]
-        searchstring=""
-        for i in range(7): #메일은 전체 내용 출력
-            searchstring += self.searchlist[self.selection][i] + "\n"
-        import smtplib
-        from email.mime.text import MIMEText
-
-        s = smtplib.SMTP('smtp.gmail.com', 587)
-
-        s.starttls()
-
-        s.login('jinsy2098@gmail.com', 'dapfiukbpfiiilcm')
-
-        msg = MIMEText(searchstring)
-        msg['Subject'] = '유기동물 상세정보 조회 !'
-
-        s.sendmail("jinsy2098@gmail.com", "tiurit12@naver.com", msg.as_string())
-
-        s.quit()
-
     def FindRocation(self):
         # 위도 경도 지정
         # 한국동물구조관리협회 37.870134, 126.983358
@@ -259,12 +238,64 @@ class Animals:
         map_osm.save('osm.html')
 
         webbrowser.open("osm.html")
+
+    def SendMail(self):
+        # selectionlist = list(self.listbox.curselection())  # 튜플 형식으로 반환해줌
+        # selection = selectionlist[0]
+        starString=""
+        for j in range(len(self.starList)):
+            for i in range(7): #메일은 전체 내용 출력
+                starString += self.starList[j][i] + "\n"
+            starString += "\n"
+        print(self.starList)
+        print(starString)
+        import smtplib
+        from email.mime.text import MIMEText
+
+        s = smtplib.SMTP('smtp.gmail.com', 587)
+
+        s.starttls()
+
+        s.login('jinsy2098@gmail.com', 'dapfiukbpfiiilcm')
+
+        msg = MIMEText(starString)
+        msg['Subject'] = '유기동물 상세정보 조회 !'
+        #sendDes = "tiurit12@naver.com"
+        sendDes = Entry.get(self.emailEntry)
+        s.sendmail("jinsy2098@gmail.com", sendDes, msg.as_string())
+
+        s.quit()
+
+    def GetStarSelection(self): #선택한거 삭제할 수 있어야함
+        selectionStarList = list(self.starListbox.curselection())  # 튜플 형식으로 반환해줌
+        self.selectionStar = selectionStarList[0]
+        print(self.selectionStar)  # 선택 값이 안들어와
+
+    def PrintStarList(self):  # 리스트에 추가된 데이터를 출력
+        self.starListbox.delete(0, 'end')
+        for i in range(len(self.starList) - 1, -1, -1):
+            # self.listbox.insert(0, self.searchlist[i][0] + "\n" + self.searchlist[i][1] + "\n" + self.searchlist[i][2] + "\n" +self.searchlist[i][3] + "\n" +
+            #                     self.searchlist[i][4] + "\n" + self.searchlist[i][5] + "\n" + self.searchlist[i][6] + "\n" + self.searchlist[i][7])
+            self.starListbox.insert(0, self.starList[i][0] + "\n" + self.starList[i][1] + "\n")
+
+    def AddStar(self): #검색 리스트의 값을 즐찾리스트로 옮김.
+        self.starList.append(self.searchList[self.selection])
+        self.PrintStarList()
+
+    def SubStar(self):
+        selectionStarList = list(self.starListbox.curselection())  # 튜플 형식으로 반환해줌
+        self.selectionStar = selectionStarList[0]
+        print(self.selectionStar)
+        self.starList.pop(self.selectionStar)
+        self.PrintStarList()
+
     def __init__(self):
         window = tkinter.Tk()
         window.title("유기 동물 조회 서비스")
         window.geometry("400x600")
         window.resizable(False, False)
-        self.searchlist = []
+        self.searchList = []
+        self.starList = []
         # 노트북으로 탭 만들기
         notebook = ttk.Notebook(window, width=400, height=600)
         notebook.place(x=0, y=0)
@@ -308,11 +339,11 @@ class Animals:
         sortNameReverse.place(x=260, y=95)
 
         #리스트박스
-        frame7 = Frame(tab1)
-        frame7.place(x=10,y=120)
-        scrollbar = tkinter.Scrollbar(frame7)
+        ListFrame = Frame(tab1)
+        ListFrame.place(x=10,y=120)
+        scrollbar = tkinter.Scrollbar(ListFrame)
         scrollbar.pack(side="right", fill="y")
-        self.listbox = tkinter.Listbox(frame7, yscrollcommand=scrollbar.set,width='50',selectmode='SINGLE')
+        self.listbox = tkinter.Listbox(ListFrame, yscrollcommand=scrollbar.set,width='50',selectmode='SINGLE')
         self.listbox.pack(side="left")
         scrollbar["command"] = self.listbox.yview
 
@@ -346,19 +377,34 @@ class Animals:
         self.imgLabel.place(x=250, y=360)
 
         #하단 버튼
-        emailButton = Button(tab2, text="이메일", command=self.SendMail)
-        emailButton.place(x=100, y=300)
+
         rocationButton = Button(tab1, text="보호소 위치보기",command=self.FindRocation)
         rocationButton.place(x=100, y=300)
-        starButton = Button(tab1, text="☆")
-        starButton.place(x=210,y=300)
+        addStarButton = Button(tab1, text="+☆",command=self.AddStar)
+        addStarButton.place(x=210,y=300)
 
 
+        #TAB2 즐겨찾기와 이메일 보내기
+
+        Label(tab2,text="즐겨찾기 리스트").place(x=10,y=20)
+
+        StarListFrame = Frame(tab2)
+        StarListFrame.place(x=10, y=55)
+        scrollbar = tkinter.Scrollbar(StarListFrame)
+        scrollbar.pack(side="right", fill="y")
+        self.starListbox = tkinter.Listbox(StarListFrame, yscrollcommand=scrollbar.set, width='50', selectmode='SINGLE')
+        self.starListbox.pack(side="left")
+        scrollbar["command"] = self.starListbox.yview
+
+        # 즐찾 해제
+        subStarButton = Button(tab2, text="-☆", command=self.SubStar)
+        subStarButton.place(x=100, y=230)
 
 
-        #frame4.place(x=150, y=360)
-
-
+        self.emailEntry = Entry(tab2)
+        self.emailEntry.place(x=140, y=230)
+        emailButton = Button(tab2, text="SEND", command=self.SendMail)
+        emailButton.place(x=300, y=230)
 
 
 

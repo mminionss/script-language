@@ -5,10 +5,10 @@ import webbrowser
 import requests
 import googlemaps
 import geocoder
-from geocoder import latlng
+
 gmaps = googlemaps.client(key=)
 geo = geocoder.google()
-geo.la
+geo.l
 # 누리동물병원
 # 부산동물보호센터
 # 청조동물병원
