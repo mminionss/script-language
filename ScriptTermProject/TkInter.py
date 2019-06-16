@@ -12,6 +12,11 @@ from PIL import ImageTk
 from tkinter import ttk
 import folium
 import webbrowser
+from distutils.core import setup
+
+setup(name='Script Language',
+      version='1.0',
+      py_modules=['TkInter'])
 
 server = "openapi.animal.go.kr"
 conn = None
@@ -377,7 +382,6 @@ class Animals:
         self.imgLabel.place(x=250, y=360)
 
         #하단 버튼
-
         rocationButton = Button(tab1, text="보호소 위치보기",command=self.FindRocation)
         rocationButton.place(x=100, y=300)
         addStarButton = Button(tab1, text="+☆",command=self.AddStar)
@@ -385,7 +389,7 @@ class Animals:
 
 
         #TAB2 즐겨찾기와 이메일 보내기
-
+        
         Label(tab2,text="즐겨찾기 리스트").place(x=10,y=20)
 
         StarListFrame = Frame(tab2)
