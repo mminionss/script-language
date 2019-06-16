@@ -12,11 +12,11 @@ from PIL import ImageTk
 from tkinter import ttk
 import folium
 import webbrowser
-from distutils.core import setup
+#from distutils.core import setup
 
-setup(name='Script Language',
-      version='1.0',
-      py_modules=['TkInter'])
+# setup(name='Script Language',
+#       version='1.0',
+#       py_modules=['TkInter'])
 
 server = "openapi.animal.go.kr"
 conn = None
@@ -294,15 +294,18 @@ class Animals:
         self.starList.pop(self.selectionStar)
         self.PrintStarList()
 
+    def DrawGraph(self):
+        self.cavas.delete("grim")
+
     def __init__(self):
         window = tkinter.Tk()
         window.title("유기 동물 조회 서비스")
-        window.geometry("400x600")
+        window.geometry("850x350")
         window.resizable(False, False)
         self.searchList = []
         self.starList = []
         # 노트북으로 탭 만들기
-        notebook = ttk.Notebook(window, width=400, height=600)
+        notebook = ttk.Notebook(window, width=850, height=350)
         notebook.place(x=0, y=0)
         tab1 = Frame(notebook)
         tab2 = Frame(notebook)
@@ -355,7 +358,7 @@ class Animals:
         #상세정보 버튼 추가
         #만약 버튼을 눌렀다면 --> command = GetSelection
         buttonInfo = Button(tab1,text="상세정보",command=self.GetSelection)
-        buttonInfo.place(x=20,y=300)
+        buttonInfo.place(x=400,y=40)
 
         #버튼 클릭->GetSelection -> GetImage
 
@@ -373,23 +376,23 @@ class Animals:
         #     f.write(image)
 
         #상세정보 출력
-        self.infoLabel = tkinter.Label(tab1, width=30, height=10, relief="groove",text="")
-        self.infoLabel.place(x=20, y=340)
+        self.infoLabel = tkinter.Label(tab1, width=42, height=10, relief="groove",text="")
+        self.infoLabel.place(x=400, y=70)
 
         # 사진
         photo = ImageTk.PhotoImage(file="grapes.gif")
         self.imgLabel = Label(tab1, image=photo)
-        self.imgLabel.place(x=250, y=360)
+        self.imgLabel.place(x=720, y=80)
 
         #하단 버튼
         rocationButton = Button(tab1, text="보호소 위치보기",command=self.FindRocation)
-        rocationButton.place(x=100, y=300)
+        rocationButton.place(x=520, y=230)
         addStarButton = Button(tab1, text="+☆",command=self.AddStar)
-        addStarButton.place(x=210,y=300)
+        addStarButton.place(x=620,y=230)
 
 
         #TAB2 즐겨찾기와 이메일 보내기
-        
+
         Label(tab2,text="즐겨찾기 리스트").place(x=10,y=20)
 
         StarListFrame = Frame(tab2)
@@ -410,6 +413,45 @@ class Animals:
         emailButton = Button(tab2, text="SEND", command=self.SendMail)
         emailButton.place(x=300, y=230)
 
+
+        #TAB3 통계 그래프
+        Label(tab3,text="유기견 통계 그래프                                                         "
+                        "                 x축 - 품종,  y축 - 마리 수").place(x=10,y=25)
+        self.canvas = Canvas(tab3,width=550,height=250,relief="groove",bd=2,bg="white")
+        self.canvas.place(x=5,y=50)
+        kindList=[]
+        countList=[0]*36
+        count=0
+        for item in self.getData():
+            count+=1
+            kindCd = item.find("kindCd")
+            if kindCd.text not in kindList:  # 전체 내용에 대해 리스트에 없으면 추가.
+                kindList.append(kindCd.text)
+                kindIndex = kindList.index(kindCd.text)
+                countList[kindIndex] += 1
+            else:   #이미 있는거면 더해야지
+                kindIndex = kindList.index(kindCd.text)
+                countList[kindIndex] += 1
+
+
+        maxCount = max(countList)
+        barW = (550-20)/36
+        for i in range(36):
+            self.canvas.create_rectangle(10 + i * barW, 20 + 180 * (1 - countList[i] / maxCount), 10 + (i + 1) * barW, 200,
+                                    tags="grim")
+            self.canvas.create_text(10 + i * barW + 7, 200 + 10, text=str(i+1), tags='grim')
+            self.canvas.create_text(10 + i * barW + 7, 10 + 180 * (1 - countList[i] / maxCount), text=str(countList[i]),
+                               tags='grim')
+        kindListString1=""
+        kindListString2=""
+
+        for i in range(18):
+            kindListString1+="["+str(i+1)+"] "+kindList[i][4:]+"\n"
+        for i in range(18,36):
+            kindListString2+="["+str(i+1)+"] "+kindList[i][4:]+"\n"
+
+        Label(tab3,width=20,height=18,relief="groove",text=kindListString1,anchor='nw',justify='left').place(x=560,y=40)
+        Label(tab3,width=20,height=18,relief="groove",text=kindListString2,anchor='nw',justify='left').place(x=700,y=40)
 
 
         window.mainloop()
