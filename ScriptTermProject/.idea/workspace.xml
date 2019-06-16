@@ -13,8 +13,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TkInter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="167">
-              <caret line="418" column="43" selection-start-line="418" selection-start-column="43" selection-end-line="418" selection-end-column="43" />
+            <state relative-caret-position="72">
+              <caret line="457" selection-start-line="457" selection-end-line="457" />
               <folding>
                 <element signature="e#24#38#0" expanded="true" />
               </folding>
@@ -25,10 +25,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/foliumTest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="8" column="31" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
+            <state relative-caret-position="243">
+              <caret line="128" column="18" lean-forward="true" selection-start-line="128" selection-start-column="18" selection-end-line="128" selection-end-column="18" />
               <folding>
-                <element signature="e#24#37#0" expanded="true" />
+                <element signature="e#27#40#0" expanded="true" />
+                <element signature="e#3568#3570#0" />
               </folding>
             </state>
           </provider>
@@ -142,10 +143,10 @@
         <option value="$PROJECT_DIR$/gmail.py" />
         <option value="$PROJECT_DIR$/SamokGame.py" />
         <option value="$PROJECT_DIR$/venv/TelegramBot.py" />
-        <option value="$PROJECT_DIR$/foliumTest.py" />
         <option value="$PROJECT_DIR$/TelegramBot.py" />
         <option value="$PROJECT_DIR$/teller.py" />
         <option value="$PROJECT_DIR$/noti.py" />
+        <option value="$PROJECT_DIR$/foliumTest.py" />
         <option value="$PROJECT_DIR$/TkInter.py" />
       </list>
     </option>
@@ -306,8 +307,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.TkInter" />
-        <item itemvalue="Python.TelegramBot" />
         <item itemvalue="Python.foliumTest" />
+        <item itemvalue="Python.TelegramBot" />
         <item itemvalue="Python.SamokGame" />
         <item itemvalue="Python.gmail" />
       </list>
@@ -345,7 +346,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32956153" />
       <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4966975" visible="true" weight="0.26180258" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39745402" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3962804" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32904148" />
@@ -391,23 +392,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="361">
           <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/foliumTest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="8" column="31" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
-          <folding>
-            <element signature="e#24#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TelegramBot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="16" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -469,10 +453,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/TelegramBot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="9" column="16" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/foliumTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="128" column="18" lean-forward="true" selection-start-line="128" selection-start-column="18" selection-end-line="128" selection-end-column="18" />
+          <folding>
+            <element signature="e#27#40#0" expanded="true" />
+            <element signature="e#3568#3570#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/TkInter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="418" column="43" selection-start-line="418" selection-start-column="43" selection-end-line="418" selection-end-column="43" />
+        <state relative-caret-position="72">
+          <caret line="457" selection-start-line="457" selection-end-line="457" />
           <folding>
             <element signature="e#24#38#0" expanded="true" />
           </folding>

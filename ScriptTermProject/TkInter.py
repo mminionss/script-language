@@ -11,6 +11,7 @@ from xml.etree import ElementTree
 from PIL import ImageTk
 from tkinter import ttk
 import folium
+import foliumTest
 import webbrowser
 #from distutils.core import setup
 
@@ -233,12 +234,15 @@ class Animals:
         self.imgLabel.configure(image=img)
         self.imgLabel.image = img
 
-    def FindRocation(self):
-        # 위도 경도 지정
-        # 한국동물구조관리협회 37.870134, 126.983358
-        map_osm = folium.Map(location=[37.870134, 126.983358], zoom_start=16)
+    def FindRocation(self): #지도 보기 눌렀을 때
+        # foliumTest.rocationDic={'부산광역시 강서구 군라2길 206 (대저2동) 부산동물보호센터': [35.1345653,128.9260548],
+        #              '부산광역시 해운대구 송정2로13번길 46 (송정동) 누리동물병원':[35.194865,129.2057445],
+        #              '부산광역시 해운대구 송정2로13번길 46 (송정동) ':[35.194865,129.2057445]}
+
+        rocationName = self.searchList[self.selection][7]
+        map_osm = folium.Map(location=foliumTest.rocationDic[rocationName], zoom_start=16)
         # 마커 지정
-        folium.Marker([37.870134, 126.983358]).add_to(map_osm)
+        folium.Marker(foliumTest.rocationDic[rocationName]).add_to(map_osm)
         # html 파일로 저장
         map_osm.save('osm.html')
 
@@ -407,7 +411,6 @@ class Animals:
         subStarButton = Button(tab2, text="-☆", command=self.SubStar)
         subStarButton.place(x=100, y=230)
 
-
         self.emailEntry = Entry(tab2)
         self.emailEntry.place(x=140, y=230)
         emailButton = Button(tab2, text="SEND", command=self.SendMail)
@@ -453,6 +456,15 @@ class Animals:
         Label(tab3,width=20,height=18,relief="groove",text=kindListString1,anchor='nw',justify='left').place(x=560,y=40)
         Label(tab3,width=20,height=18,relief="groove",text=kindListString2,anchor='nw',justify='left').place(x=700,y=40)
 
+        # #지도를 위해 병원 주소 출력
+        # careAddrList=[]
+        # for item in self.getData():
+        #     careAddr = item.find("careAddr")
+        #     if (careAddr.text.find("") )>=0 and careAddr.text not in careAddrList:  # 전체 내용에 대해 리스트에 없으면 추가.
+        #         careAddrList.append(careAddr.text)
+        #
+        # print(len(careAddrList))
+        # print(careAddrList)
 
         window.mainloop()
 
