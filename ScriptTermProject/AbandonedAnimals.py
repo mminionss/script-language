@@ -183,11 +183,13 @@ class Animals:
     def SortDate(self):
         self.searchList = sorted(self.searchList, key=lambda date:self.searchList[1])
         self.PrintList()
+        spam.strlen()
 
     def SortName(self):#가나다 내림차순
 
         self.PrintList()
         self.searchList.sort(reverse=False)
+
 
     def SortNameReverse(self):
 
