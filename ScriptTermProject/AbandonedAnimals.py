@@ -13,6 +13,7 @@ from tkinter import ttk
 import folium
 import webbrowser
 import spam
+
 from distutils.core import setup
 #
 # setup(name='Script Language_LYJSY',
@@ -27,8 +28,10 @@ rocationDic = {'부산광역시 강서구 군라2길 206 (대저2동) 부산동�
                 '부산광역시 해운대구 송정2로13번길 46 (송정동) 누리동물병원': [35.194865, 129.2057445],
                 '부산광역시 해운대구 송정2로13번길 46 (송정동) ': [35.194865, 129.2057445]}
 
-def InitRenderText():
-    global RenderText
+
+
+
+
 
 def userURIBuilder(uri, **user):
     str = uri + "?"
@@ -44,7 +47,6 @@ def connectServer():
 global kindNm
 
 kindNm="417000"
-
 
 global selection
 global selectionStar
@@ -155,11 +157,11 @@ class Animals:
 
     def PrintList(self):  # 리스트에 추가된 데이터를 출력
         self.listbox.delete(0, 'end')
-        # # 화면에 출력해보기
-        # for i in range(len(self.searchlist)):
-        #     for j in range(8):
-        #         print(self.searchlist[i][j])
-        #     print()
+        # 화면에 출력해보기
+        for i in range(len(self.searchList) - 1, -1, -1):
+            for j in range(8):
+                print(self.searchList[i][j])
+            print()
         # 리스트 박스에 출력
         for i in range(len(self.searchList) - 1, -1, -1):
             # self.listbox.insert(0, self.searchlist[i][0] + "\n" + self.searchlist[i][1] + "\n" + self.searchlist[i][2] + "\n" +self.searchlist[i][3] + "\n" +

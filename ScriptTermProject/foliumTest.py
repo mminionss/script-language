@@ -257,3 +257,60 @@ rocationDic = {'부산광역시 강서구 군라2길 206 (대저2동) 부산동�
 # button.grid(row=5, column=0)
 #
 # mainloop()
+
+#
+# import requests
+# from urllib import *
+# import json
+# import pprint
+#
+# # 검색할 주소
+# location = '누리동물병원'
+#
+# # 요청 주소(구글맵)
+#
+# # Local(테스트) 환경 - https 요청이 필요없고, API Key가 따로 필요하지 않지만 횟수에 제약이 있습니다.
+# URL = 'https://maps.googleapis.com/maps/api/geocode/json?sensor=false&language=ko&address={}'.format(location)
+#
+# # Production(실제 서비스) 환경 - https 요청이 필수이고, API Key 발급(사용설정) 및 과금 설정이 반드시 필요합니다.
+# # URL = 'https://maps.googleapis.com/maps/api/geocode/json?key=<구글 맵 API key>' \
+# # '&sensor=false&language=ko&address={}'.format(location)
+#
+# # URL로 보낸 Requst의 Response를 response 변수에 할당
+# response = requests.get(URL)
+#
+# # JSON 파싱
+# data = response.json()
+#
+# # lat, lon 추출
+# lat = data['results'][0]['geometry']['location']['lat']
+# lng = data['results'][0]['geometry']['location']['lng']
+#
+# print (lat)
+# print (lng)
+
+import json
+
+# 네이티브 앱 키
+# f04c74adfc7f52935732eb312d3c98f5
+# REST API 키
+# 83bee4a2cc30ecb8dc09921b53417214
+# JavaScript 키
+# d945efe23d65b9cba53d60375315617c
+# Admin 키
+# 708ecd59aca5f4c51908a7a2b8bd98fc
+
+
+def getLatLng(addr):
+    url = 'https://dapi.kakao.com/v2/local/search/address.json?query=' + addr
+
+    headers = {"Authorization": "KakaoAK 83bee4a2cc30ecb8dc09921b53417214"}
+
+    result = json.loads(str(requests.get(url, headers=headers).text))
+
+    match_first = result['documents'][0]['address']
+
+    return float(match_first['y']), float(match_first['x'])
+    #return result
+
+print(getLatLng('부산광역시 강서구 군라2길 206 (대저2동) 부산동물보호센터'))

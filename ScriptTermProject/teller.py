@@ -14,8 +14,9 @@ import traceback
 
 import noti
 
-
-def replyAptData(kind_param, user, place_param='11710'):
+#입력 받기
+# 종, 유저정보, 지역이름 받음
+def replyAptData(kind_param, user, place_param='부산'):
     print(user, kind_param, place_param)
     res_list = noti.getData(place_param, kind_param)
     msg = ''
@@ -62,20 +63,14 @@ def handle(msg):
 
     text = msg['text']
     args = text.split(' ')
-    if text.startswith('거래') and len(args)>1:
-        print('try to 거래',args[1])
-        replyAptData(args[1],chat_id,args[2])
-    elif text.startswith('지역') and len(args)>1:
-        print('try to 지역', args[1])
+    if text.startswith('품종') and len(args)>1:
+        print('try to 품종', args[0])
         replyAptData( '201801', chat_id, args[1] )
-    elif text.startswith('저장')  and len(args)>1:
-        print('try to 저장', args[1])
-        save( chat_id, args[1] )
     elif text.startswith('확인'):
         print('try to 확인')
         check( chat_id )
     else:
-        noti.sendMessage(chat_id, '모르는 명령어입니다.\n거래 [YYYYMM] [지역번호], 지역 [지역번호], 저장 [지역번호], 확인 중 하나의 명령을 입력하세요.')
+        noti.sendMessage(chat_id, '모르는 명령어입니다.\n지역 [지역이름(서울/인천/부산)]')
 
 
 today = date.today()

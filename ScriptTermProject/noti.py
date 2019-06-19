@@ -14,14 +14,14 @@ import traceback
 
 
 key = 'o/SVIGlGjsaX3DTs/jBgQH92mEtQTi9EpyoiRoR7RQe8VyfgwwFz8jKmS26J90tsGuVa6T0/IaZtF/kEUAhwAA=='
-TOKEN = '823805594:AAEmzhqP7MwvMp39Cq64SNYWejz6oSPWQ2w'
+TOKEN = '844048060:AAE_TTyBWtDUo6S6NR7eokOMck318rMCKds'
 MAX_MSG_LENGTH = 300
 baseurl = 'http://openapi.animal.go.kr/openapi/service/rest/abandonmentPublicSrvc/abandonmentPublic?serviceKey='+key
 bot = telepot.Bot(TOKEN)
 
 def getData(place_param, kind_param):
     res_list = []
-    url = baseurl +'&LAWD_CD=' + place_param + '&DEAL_YMD=' + kind_param
+    url = baseurl +'&bgnde=' + place_param + '&endde=' + kind_param
     #print(url)
     res_body = urlopen(url).read()
     #print(res_body)
@@ -34,7 +34,6 @@ def getData(place_param, kind_param):
             row = parsed[11]+' '+parsed[20]+' \n특징 : '+parsed[21]+'\n'+parsed[3]+' '+parsed[4]+'\n'
         except IndexError:
             row = item.replace('|', ',')
-
         if row:
             res_list.append(row.strip())
     return res_list
