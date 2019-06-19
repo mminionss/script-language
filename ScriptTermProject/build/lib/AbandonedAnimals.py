@@ -2,17 +2,13 @@
 
 import tkinter
 from tkinter import *
-#from tkinter import Tk, Label, PhotoImage
 import http.client
-import requests
-import urllib
-from xml.dom.minidom import parse, parseString
 from xml.etree import ElementTree
 from PIL import ImageTk
 from tkinter import ttk
-import folium
-import webbrowser
+import foliumTest
 import spam
+
 from distutils.core import setup
 
 setup(name='Script Language_LYJSY',
@@ -27,8 +23,10 @@ rocationDic = {'부산광역시 강서구 군라2길 206 (대저2동) 부산동�
                 '부산광역시 해운대구 송정2로13번길 46 (송정동) 누리동물병원': [35.194865, 129.2057445],
                 '부산광역시 해운대구 송정2로13번길 46 (송정동) ': [35.194865, 129.2057445]}
 
-def InitRenderText():
-    global RenderText
+
+
+
+
 
 def userURIBuilder(uri, **user):
     str = uri + "?"
@@ -44,7 +42,6 @@ def connectServer():
 global kindNm
 
 kindNm="417000"
-
 
 global selection
 global selectionStar
@@ -98,7 +95,6 @@ class Animals:
         # 검색 키워드가 주소일 경우
         if self.variable.get() == "주소":
             self.SearchAddr(keyword)
-
         # 검색 키워드가 종 이름 #아이디어노트: tkInter 탭하나 만들어서 종 이름 쭈루룩 출력해서 참고가능하게.
         if self.variable.get() == "품종":
             self.SearchKind(keyword)
@@ -156,11 +152,11 @@ class Animals:
 
     def PrintList(self):  # 리스트에 추가된 데이터를 출력
         self.listbox.delete(0, 'end')
-        # # 화면에 출력해보기
-        # for i in range(len(self.searchlist)):
-        #     for j in range(8):
-        #         print(self.searchlist[i][j])
-        #     print()
+        # 화면에 출력해보기
+        for i in range(len(self.searchList) - 1, -1, -1):
+            for j in range(8):
+                print(self.searchList[i][j])
+            print()
         # 리스트 박스에 출력
         for i in range(len(self.searchList) - 1, -1, -1):
             # self.listbox.insert(0, self.searchlist[i][0] + "\n" + self.searchlist[i][1] + "\n" + self.searchlist[i][2] + "\n" +self.searchlist[i][3] + "\n" +
@@ -174,14 +170,23 @@ class Animals:
             infoString += self.searchList[self.selection][i] + "\n"
         self.infoLabel.config(text=infoString)
 
+    def PrintStarInfo(self):
+        self.infoLabel_tab2.forget()  # 내용 싹 지우고 다시 출력
+        infoString = ""
+        for i in range(7):
+            infoString += self.starList[self.selectionStar][i] + "\n"
+        self.infoLabel_tab2.config(text=infoString)
+
     def SortDate(self):
         self.searchList = sorted(self.searchList, key=lambda date:self.searchList[1])
         self.PrintList()
+        spam.strlen()
 
     def SortName(self):#가나다 내림차순
 
         self.PrintList()
         self.searchList.sort(reverse=False)
+
 
     def SortNameReverse(self):
 
@@ -213,24 +218,13 @@ class Animals:
 
     def GetImage(self):
         filename = self.searchList[self.selection][8]
-
-        # load library
         import urllib.request
         from PIL import ImageTk
-        import os
-
-        # image url to download
         url = filename
 
-        # file path and file name to download
         outpath = "C:/Users/tiuri/Documents/GitHub/script-language/ScriptTermProject/"
         outfile = "test.jpg"
 
-        # # Create when directory does not exist
-        # if not os.path.isdir(outpath):
-        #     os.makedirs(outpath)
-
-        # download
         urllib.request.urlretrieve(url, outpath + outfile)
         print("complete!")
 
@@ -238,19 +232,30 @@ class Animals:
         self.imgLabel.configure(image=img)
         self.imgLabel.image = img
 
+    def GetStarImage(self):
+        filename = self.starList[self.selectionStar][8]
+        import urllib.request
+        from PIL import ImageTk
+        url = filename
+
+        outpath = "C:/Users/tiuri/Documents/GitHub/script-language/ScriptTermProject/"
+        outfile = "test_tab2.jpg"
+
+        urllib.request.urlretrieve(url, outpath + outfile)
+        print("complete!")
+
+        img_tab2 = ImageTk.PhotoImage(file=outfile)
+        self.imgLabel_tab2.configure(image=img_tab2)
+        self.imgLabel_tab2.image = img_tab2
+
     def FindRocation(self): #지도 보기 눌렀을 때
-        # foliumTest.rocationDic={'부산광역시 강서구 군라2길 206 (대저2동) 부산동물보호센터': [35.1345653,128.9260548],
-        #              '부산광역시 해운대구 송정2로13번길 46 (송정동) 누리동물병원':[35.194865,129.2057445],
-        #              '부산광역시 해운대구 송정2로13번길 46 (송정동) ':[35.194865,129.2057445]}
+        rocationAddr = self.searchList[self.selection][7] #주소를 받아서 foliumTest한테 넘겨야댐
+        foliumTest.FindRocation(rocationAddr)
 
-        rocationName = self.searchList[self.selection][7]
-        map_osm = folium.Map(location=rocationDic[rocationName], zoom_start=16)
-        # 마커 지정
-        folium.Marker(rocationDic[rocationName]).add_to(map_osm)
-        # html 파일로 저장
-        map_osm.save('osm.html')
 
-        webbrowser.open("osm.html")
+    def FindStarRocation(self):  # 지도 보기 눌렀을 때
+        rocationAddr = self.starList[self.selectionStar][7]  # 주소를 받아서 foliumTest한테 넘겨야댐
+        foliumTest.FindRocation(rocationAddr)
 
     def SendMail(self):
         # selectionlist = list(self.listbox.curselection())  # 튜플 형식으로 반환해줌
@@ -283,6 +288,8 @@ class Animals:
         selectionStarList = list(self.starListbox.curselection())  # 튜플 형식으로 반환해줌
         self.selectionStar = selectionStarList[0]
         print(self.selectionStar)  # 선택 값이 안들어와
+        self.GetStarImage()
+        self.PrintStarInfo()
 
     def PrintStarList(self):  # 리스트에 추가된 데이터를 출력
         self.starListbox.delete(0, 'end')
@@ -303,7 +310,7 @@ class Animals:
         self.PrintStarList()
 
     def DrawGraph(self):
-        self.cavas.delete("grim")
+        self.canvas.delete("grim")
 
     def __init__(self):
         window = tkinter.Tk()
@@ -368,21 +375,6 @@ class Animals:
         buttonInfo = Button(tab1,text="상세정보",command=self.GetSelection)
         buttonInfo.place(x=400,y=40)
 
-        #버튼 클릭->GetSelection -> GetImage
-
-        #이미지 uri -> 파일로 저장하는 코드
-            #
-
-        #
-
-        # global imgfile
-        # import os
-        # image_url = self.GetImageUrl()
-        # image = requests.get(image_url).content
-        # filename = os.path.basename(image_url)
-        # with open(filename,'wb') as f:
-        #     f.write(image)
-
         #상세정보 출력
         self.infoLabel = tkinter.Label(tab1, width=42, height=10, relief="groove",text="")
         self.infoLabel.place(x=400, y=70)
@@ -394,9 +386,10 @@ class Animals:
 
         #하단 버튼
         rocationButton = Button(tab1, text="보호소 위치보기",command=self.FindRocation)
-        rocationButton.place(x=520, y=230)
+        rocationButton.place(x=570, y=230)
         addStarButton = Button(tab1, text="+☆",command=self.AddStar)
-        addStarButton.place(x=620,y=230)
+        addStarButton.place(x=670,y=230)
+
 
 
         #TAB2 즐겨찾기와 이메일 보내기
@@ -411,14 +404,33 @@ class Animals:
         self.starListbox.pack(side="left")
         scrollbar["command"] = self.starListbox.yview
 
+        Label(tab2,text="이메일 주소 입력 : ").place(x=50,y=235)
+        self.emailEntry = Entry(tab2)
+        self.emailEntry.place(x=160, y=235)
+        emailButton = Button(tab2, text="SEND", command=self.SendMail)
+        emailButton.place(x=320, y=230)
+
+        # 상세정보 버튼 추가
+        # 만약 버튼을 눌렀다면 --> command = GetSelection
+        buttonInfo_tab2 = Button(tab2, text="상세정보", command=self.GetStarSelection)
+        buttonInfo_tab2.place(x=400, y=40)
+
+        # 상세정보 출력
+        self.infoLabel_tab2 = tkinter.Label(tab2, width=42, height=10, relief="groove", text="")
+        self.infoLabel_tab2.place(x=400, y=70)
+
+        # 사진
+        photo_tab2 = ImageTk.PhotoImage(file="grapes.gif")
+        self.imgLabel_tab2 = Label(tab2, image=photo_tab2)
+        self.imgLabel_tab2.place(x=720, y=80)
+
+        # 하단 버튼
+        rocationButton_tab2 = Button(tab2, text="보호소 위치보기", command=self.FindStarRocation)
+        rocationButton_tab2.place(x=570, y=230)
         # 즐찾 해제
         subStarButton = Button(tab2, text="-☆", command=self.SubStar)
-        subStarButton.place(x=100, y=230)
+        subStarButton.place(x=670, y=230)
 
-        self.emailEntry = Entry(tab2)
-        self.emailEntry.place(x=140, y=230)
-        emailButton = Button(tab2, text="SEND", command=self.SendMail)
-        emailButton.place(x=300, y=230)
 
 
         #TAB3 통계 그래프

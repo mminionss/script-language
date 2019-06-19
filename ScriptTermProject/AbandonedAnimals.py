@@ -2,36 +2,16 @@
 
 import tkinter
 from tkinter import *
-#from tkinter import Tk, Label, PhotoImage
 import http.client
-import requests
-import urllib
-from xml.dom.minidom import parse, parseString
 from xml.etree import ElementTree
 from PIL import ImageTk
 from tkinter import ttk
 import foliumTest
-import webbrowser
 import spam
-
-from distutils.core import setup
-#
-# setup(name='Script Language_LYJSY',
-#       version='1.0',
-#       py_modules=['AbandonedAnimals'])
 
 server = "openapi.animal.go.kr"
 conn = None
 global searchOption
-global rocationDic
-rocationDic = {'부산광역시 강서구 군라2길 206 (대저2동) 부산동물보호센터': [35.1345653, 128.9260548],
-                '부산광역시 해운대구 송정2로13번길 46 (송정동) 누리동물병원': [35.194865, 129.2057445],
-                '부산광역시 해운대구 송정2로13번길 46 (송정동) ': [35.194865, 129.2057445]}
-
-
-
-
-
 
 def userURIBuilder(uri, **user):
     str = uri + "?"
