@@ -6,6 +6,15 @@ import http.client
 from xml.etree import ElementTree
 import spam
 
+
+
+
+
+
+
+
+
+
 TOKEN = '844048060:AAE_TTyBWtDUo6S6NR7eokOMck318rMCKds'
 bot = telepot.Bot(TOKEN)
 print(bot.getMe())
@@ -119,7 +128,7 @@ def handle(msg):
         print('try to 품종', args[1])
         bot.sendMessage(chat_id,'품종 '+args[1]+' 기준으로 검색 중...')
         botResponse=SearchKind(args[1])
-        if spam.strlen(botResponse)<7000:
+        if 0<spam.strlen(botResponse)<7000:
             bot.sendMessage(chat_id,botResponse)
         elif spam.strlen(botResponse)>=7000:
             bot.sendMessage(chat_id,"결과가 너무 길어요 !")
@@ -131,10 +140,10 @@ def handle(msg):
         print('try to 주소', args[1])
         bot.sendMessage(chat_id, '주소 ' + args[1] + ' 기준으로 검색 중...')
         botResponse = SearchAddr(args[1])
-        if spam.strlen(botResponse)<7000:
+        if 0<spam.strlen(botResponse)<7000:
             bot.sendMessage(chat_id, botResponse)
         elif spam.strlen(botResponse)>=7000:
-            bot.sendMessage(chat_id,"결과가 너무 길어요 !"+ str(spam.strlen(botResponse)))
+            bot.sendMessage(chat_id,"결과가 너무 길어요 ! ")
         else:
             bot.sendMessage(chat_id, "해당 주소가 없습니다 !")
 
@@ -142,26 +151,17 @@ def handle(msg):
         print('try to 보호소', args[1])
         bot.sendMessage(chat_id, '보호소 ' + args[1] + ' 기준으로 검색 중...')
         botResponse = SearchCenter(args[1])
-        if spam.strlen(botResponse)<7000:
+        if 0<spam.strlen(botResponse)<7000:
             bot.sendMessage(chat_id, botResponse)
         elif spam.strlen(botResponse) >= 7000:
             bot.sendMessage(chat_id, "결과가 너무 길어요 !")
         else:
             bot.sendMessage(chat_id, "해당 이름의 보호소가 없습니다 !")
 
-    elif text.startswith('help') and len(args)>1:
-        bot.sendMessage(''' ========  명령어 예시  =======\n
-        지역으로 검색 : 지역 부산\n
-        품종으로 검색 : 품종 포메라니안\n
-        보호소이름으로 검색 : 보호소 펫''')
-
-    elif text.startswith('ok bye') and len(args)>1:
-        bot.sendMessage('bye!')
-
     else:
         bot.sendMessage(chat_id, '''모르는 명령어입니다.\n 
         ========  명령어 예시  =======\n
-        지역으로 검색 : 지역 부산\n
+        주소로 검색 : 주소 부산\n
         품종으로 검색 : 품종 포메라니안\n
         보호소이름으로 검색 : 보호소 펫''')
 
