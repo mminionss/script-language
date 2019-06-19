@@ -4,7 +4,7 @@ from datetime import date, datetime, timedelta
 from urllib.request import  urlopen
 import http.client
 from xml.etree import ElementTree
-
+import spam
 
 TOKEN = '844048060:AAE_TTyBWtDUo6S6NR7eokOMck318rMCKds'
 bot = telepot.Bot(TOKEN)
@@ -92,6 +92,7 @@ def SearchKind(keyword):  # 종 이름으로 검색
                           +"유기날짜 : " + item.find("happenDt").text+"\n"+"털 색 : " + item.find("colorCd").text + " "+"\n"\
                           +"특징 : " + item.find("specialMark").text+"\n"+"진행상태 : " + item.find("processState").text\
                           +"\n"+item.find("careNm").text+"\n"+item.find("careTel").text+"\n"+item.find("careAddr").text+"\n"+"\n"
+
     return botResponse
 
 def SearchAddr(keyword):  # 주소 이름으로 검색
@@ -128,8 +129,10 @@ def handle(msg):
         print('try to 품종', args[1])
         bot.sendMessage(chat_id,'품종 '+args[1]+' 기준으로 검색 중...')
         botResponse=SearchKind(args[1])
-        if botResponse:
+        if spam.strlen(botResponse)<7000:
             bot.sendMessage(chat_id,botResponse)
+        elif spam.strlen(botResponse)>=7000:
+            bot.sendMessage(chat_id,"결과가 너무 길어요 !")
         else:
             bot.sendMessage(chat_id,"해당 품종이 없습니다 !")
 
@@ -138,8 +141,10 @@ def handle(msg):
         print('try to 주소', args[1])
         bot.sendMessage(chat_id, '주소 ' + args[1] + ' 기준으로 검색 중...')
         botResponse = SearchAddr(args[1])
-        if botResponse:
+        if spam.strlen(botResponse)<7000:
             bot.sendMessage(chat_id, botResponse)
+        elif spam.strlen(botResponse)>=7000:
+            bot.sendMessage(chat_id,"결과가 너무 길어요 !"+ str(spam.strlen(botResponse)))
         else:
             bot.sendMessage(chat_id, "해당 주소가 없습니다 !")
 
@@ -147,8 +152,10 @@ def handle(msg):
         print('try to 보호소', args[1])
         bot.sendMessage(chat_id, '보호소 ' + args[1] + ' 기준으로 검색 중...')
         botResponse = SearchCenter(args[1])
-        if botResponse:
+        if spam.strlen(botResponse)<7000:
             bot.sendMessage(chat_id, botResponse)
+        elif spam.strlen(botResponse) >= 7000:
+            bot.sendMessage(chat_id, "결과가 너무 길어요 !")
         else:
             bot.sendMessage(chat_id, "해당 이름의 보호소가 없습니다 !")
 

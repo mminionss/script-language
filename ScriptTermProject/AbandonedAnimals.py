@@ -10,7 +10,7 @@ from xml.dom.minidom import parse, parseString
 from xml.etree import ElementTree
 from PIL import ImageTk
 from tkinter import ttk
-import folium
+import foliumTest
 import webbrowser
 import spam
 
@@ -254,32 +254,13 @@ class Animals:
         self.imgLabel_tab2.image = img_tab2
 
     def FindRocation(self): #지도 보기 눌렀을 때
-        # foliumTest.rocationDic={'부산광역시 강서구 군라2길 206 (대저2동) 부산동물보호센터': [35.1345653,128.9260548],
-        #              '부산광역시 해운대구 송정2로13번길 46 (송정동) 누리동물병원':[35.194865,129.2057445],
-        #              '부산광역시 해운대구 송정2로13번길 46 (송정동) ':[35.194865,129.2057445]}
+        rocationAddr = self.searchList[self.selection][7] #주소를 받아서 foliumTest한테 넘겨야댐
+        foliumTest.FindRocation(rocationAddr)
 
-        rocationName = self.searchList[self.selection][7]
-        map_osm = folium.Map(location=rocationDic[rocationName], zoom_start=16)
-        # 마커 지정
-        folium.Marker(rocationDic[rocationName]).add_to(map_osm)
-        # html 파일로 저장
-        map_osm.save('osm.html')
-
-        webbrowser.open("osm.html")
 
     def FindStarRocation(self):  # 지도 보기 눌렀을 때
-        # foliumTest.rocationDic={'부산광역시 강서구 군라2길 206 (대저2동) 부산동물보호센터': [35.1345653,128.9260548],
-        #              '부산광역시 해운대구 송정2로13번길 46 (송정동) 누리동물병원':[35.194865,129.2057445],
-        #              '부산광역시 해운대구 송정2로13번길 46 (송정동) ':[35.194865,129.2057445]}
-
-        rocationName = self.starList[self.selectionStar][7]
-        map_osm = folium.Map(location=rocationDic[rocationName], zoom_start=16)
-        # 마커 지정
-        folium.Marker(rocationDic[rocationName]).add_to(map_osm)
-        # html 파일로 저장
-        map_osm.save('osm.html')
-
-        webbrowser.open("osm.html")
+        rocationAddr = self.starList[self.selectionStar][7]  # 주소를 받아서 foliumTest한테 넘겨야댐
+        foliumTest.FindRocation(rocationAddr)
 
     def SendMail(self):
         # selectionlist = list(self.listbox.curselection())  # 튜플 형식으로 반환해줌
